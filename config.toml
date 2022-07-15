@@ -1,0 +1,124 @@
+[api]
+# enabled = true
+
+[sources.aircraft_feed]
+type = "file"
+ignore_older_secs = 600
+include = [ "/run/dump1090-fa/aircraft.json" ]
+data_dir = "/home/pi/piaware_vector"
+line_delimiter = "EOF"
+glob_minimum_cooldown_ms = 2000
+
+
+[transforms.parsing]
+type = "remap"
+inputs = [ "aircraft_feed" ]
+source = '''
+. = parse_json!(.message).aircraft
+'''
+
+[transforms.trim_whitespace]
+type = "remap"
+inputs = [ "parsing" ]
+drop_on_error = true
+source = '''
+if is_string(.flight) {
+    .flight, err = strip_whitespace(.flight)
+}
+'''
+
+# [transforms.filter_id]
+# type = "filter"
+# inputs = [ "parsing" ]
+# condition = { type = "vrl", source = '.category == "A3"'  }
+
+
+[transforms.dump1090_to_metric]
+type = "log_to_metric"
+inputs = [ "trim_whitespace" ]
+
+ [[transforms.dump1090_to_metric.metrics]]
+ type = "gauge"
+ field = "messages"
+ namespace = "dump1090"
+    [transforms.dump1090_to_metric.metrics.tags]
+    hex = "{{hex}}"
+    flight = "{{flight}}"
+
+ [[transforms.dump1090_to_metric.metrics]]
+ type = "gauge"
+ field = "alt_geom"
+ namespace = "dump1090"
+
+    [transforms.dump1090_to_metric.metrics.tags]
+    hex = "{{hex}}"
+    flight = "{{flight}}"
+
+ [[transforms.dump1090_to_metric.metrics]]
+ type = "gauge"
+ field = "alt_baro"
+ namespace = "dump1090"
+
+    [transforms.dump1090_to_metric.metrics.tags]
+    hex = "{{hex}}"
+    flight = "{{flight}}"
+
+ [[transforms.dump1090_to_metric.metrics]]
+ type = "gauge"
+ field = "nav_heading"
+ namespace = "dump1090"
+
+    [transforms.dump1090_to_metric.metrics.tags]
+    hex = "{{hex}}"
+    flight = "{{flight}}"
+
+ [[transforms.dump1090_to_metric.metrics]]
+ type = "gauge"
+ field = "rssi"
+ namespace = "dump1090"
+
+    [transforms.dump1090_to_metric.metrics.tags]
+    hex = "{{hex}}"
+    flight = "{{flight}}"
+
+ [[transforms.dump1090_to_metric.metrics]]
+ type = "gauge"
+ field = "baro_rate"
+ namespace = "dump1090"
+
+    [transforms.dump1090_to_metric.metrics.tags]
+    hex = "{{hex}}"
+    flight = "{{flight}}"
+
+ [[transforms.dump1090_to_metric.metrics]]
+ type = "gauge"
+ field = "emergency"
+ namespace = "dump1090"
+
+    [transforms.dump1090_to_metric.metrics.tags]
+    hex = "{{hex}}"
+    flight = "{{flight}}"
+
+ [[transforms.dump1090_to_metric.metrics]]
+ type = "gauge"
+ field = "gs"
+ namespace = "dump1090"
+
+    [transforms.dump1090_to_metric.metrics.tags]
+    hex = "{{hex}}"
+    flight = "{{flight}}"
+
+# Uncomment below to debug
+# [sinks.console]
+# type = "console"
+# inputs = [ "trim_whitespace" ]
+# target = "stdout"
+#   [sinks.console.encoding]
+#   codec = "json"
+
+[sinks.prom]
+type = "prometheus_exporter"
+inputs = ["dump1090_to_metric"]
+address = "0.0.0.0:3000"
+default_namespace = "adsb"
+flush_period_secs = 100
