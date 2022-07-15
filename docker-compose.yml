@@ -33,7 +33,7 @@ services:
 
   grafana:
     image: grafana/grafana:latest
-    container_name: grafana
+    container_name: adsb_grafana
     volumes:
       - grafana_data:/var/lib/grafana
       # - ./grafana/plugins:/var/lib/grafana/plugins
