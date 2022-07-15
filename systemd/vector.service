@@ -1,0 +1,15 @@
+[Unit]
+Description=vector
+Documentation=https://vector.dev/
+After=network-online.target
+
+[Service]
+User=pi
+Restart=on-failure
+
+[Service]
+User=pi
+ExecStart=/usr/bin/vector -c /home/pi/piaware_vector/config.toml
+
+[Install]
+WantedBy=multi-user.target
