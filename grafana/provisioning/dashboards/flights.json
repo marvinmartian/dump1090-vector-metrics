@@ -24,14 +24,14 @@
     "editable": true,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
-    "id": 3,
+    "id": 1,
     "links": [],
     "liveNow": false,
     "panels": [
         {
             "datasource": {
                 "type": "prometheus",
-                "uid": "Uyd_mbCnk"
+                "uid": "PBFA97CFB590B2093"
             },
             "fieldConfig": {
                 "defaults": {
@@ -106,7 +106,7 @@
                 {
                     "datasource": {
                         "type": "prometheus",
-                        "uid": "Uyd_mbCnk"
+                        "uid": "PBFA97CFB590B2093"
                     },
                     "editorMode": "code",
                     "expr": "dump1090_alt_baro{flight!=\"\"}",
@@ -121,7 +121,7 @@
         {
             "datasource": {
                 "type": "prometheus",
-                "uid": "Uyd_mbCnk"
+                "uid": "PBFA97CFB590B2093"
             },
             "fieldConfig": {
                 "defaults": {
@@ -196,7 +196,7 @@
                 {
                     "datasource": {
                         "type": "prometheus",
-                        "uid": "Uyd_mbCnk"
+                        "uid": "PBFA97CFB590B2093"
                     },
                     "editorMode": "code",
                     "expr": "dump1090_gs{flight!=\"\"}",
@@ -211,7 +211,7 @@
         {
             "datasource": {
                 "type": "prometheus",
-                "uid": "Uyd_mbCnk"
+                "uid": "PBFA97CFB590B2093"
             },
             "fieldConfig": {
                 "defaults": {
@@ -285,7 +285,7 @@
                 {
                     "datasource": {
                         "type": "prometheus",
-                        "uid": "Uyd_mbCnk"
+                        "uid": "PBFA97CFB590B2093"
                     },
                     "editorMode": "code",
                     "expr": "dump1090_messages{flight!=\"\"}",
@@ -306,13 +306,13 @@
         "list": []
     },
     "time": {
-        "from": "now-6h",
+        "from": "now-5m",
         "to": "now"
     },
     "timepicker": {},
     "timezone": "",
     "title": "ADSB",
     "uid": "AuYAwkRVz",
-    "version": 11,
+    "version": 2,
     "weekStart": ""
 }
